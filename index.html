@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body>
+    <h1>ToDoList</h1>
+    <ul></ul>
+    <input type="text">
+    <button class="btn btn-primary add">Add Item</button>
+    <button class="btn btn-primary delete">Delete Item</button>    
+  </body>
+  <script>
+    // Variáveis e Funções
+        // Função que retorna um componente HTML na tela
+        const component = (tag) => (text, clasz='', id, type='', singleTag=false) => {
+            id === undefined ? id = clasz : ''
+            return singleTag == true ? `<${tag} class="${clasz}" id="${id}">` : `<${tag} class="${clasz}" id="${id}">${text}</${tag}>`
+        }
+        const h1 = component('h1')
+        h1()
+        // Elementos DOM
+            const ul = document.querySelector('ul')
+            const input = document.querySelector('input')
+            const doneTasks = document.querySelectorAll('.done')
+            const checkboxs = []
+            const add = document.querySelector('.add')
+            const deleter = document.querySelector('.delete')
+    // Eventos
+        // Adiciona Item a lista
+            add.addEventListener('click', () => {
+                ul.innerHTML += `<li><input type="checkbox" class="checkbox">${input.value}</li>`
+                checkboxs.append()
+            })
+        // Marca uma tarefa como feita
+            
+  </script>
+</html>
