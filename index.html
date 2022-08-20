@@ -1,44 +1,119 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
   <head>
-    <title>Title</title>
+    <title>
+      Title
+    </title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta 
+      name="viewport" 
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    >
+    <link 
+      rel="stylesheet" 
+      href="assets/css/main.css"
+    >
+    <link 
+      rel="preconnect" 
+      href="https://fonts.googleapis.com"
+    >
+    <link 
+      rel="preconnect" 
+      href="https://fonts.gstatic.com" 
+      crossorigin
+    >
+    <link 
+      href="https://fonts.googleapis.com/css2?family=Tangerine:wght@700&display=swap" 
+      rel="stylesheet"
+    >
   </head>
   <body>
-    <h1>ToDoList</h1>
-    <ul></ul>
-    <input type="text">
-    <button class="btn btn-primary add">Add Item</button>
-    <button class="btn btn-primary delete">Delete Item</button>    
+    <div class="wrapper">
+      <h1>
+        ToDoList
+      </h1>
+      <ul></ul>
+      <div class="container">
+        <div class="row">
+          <input 
+            type="text" 
+            class="input"
+          >
+        </div>
+        <div class="row">
+          <button class="btn btn-secondary add">
+            Add Task
+          </button>
+          <button class="btn btn-secondary delete">
+            Delete Done Tasks
+          </button>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <nav>
+        <ul>
+          <li>
+            <a href="">
+              <img 
+                src="assets/images/github.svg" 
+                alt="Logo do Gihub"
+              >
+                Github
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <img 
+                src="assets/images/linkedin.svg" 
+                alt="Logo do Likedin"
+              >
+                Linkedin
+              </a>
+          </li>
+        </ul>
+      </nav>
+    </footer>
   </body>
   <script>
-    // Variáveis e Funções
-        // Função que retorna um componente HTML na tela
-        const component = (tag) => (text, clasz='', id, type='', singleTag=false) => {
-            id === undefined ? id = clasz : ''
-            return singleTag == true ? `<${tag} class="${clasz}" id="${id}">` : `<${tag} class="${clasz}" id="${id}">${text}</${tag}>`
-        }
-        const h1 = component('h1')
-        h1()
-        // Elementos DOM
-            const ul = document.querySelector('ul')
-            const input = document.querySelector('input')
-            const doneTasks = document.querySelectorAll('.done')
-            const checkboxs = []
-            const add = document.querySelector('.add')
-            const deleter = document.querySelector('.delete')
-    // Eventos
-        // Adiciona Item a lista
-            add.addEventListener('click', () => {
-                ul.innerHTML += `<li><input type="checkbox" class="checkbox">${input.value}</li>`
-                checkboxs.append()
-            })
-        // Marca uma tarefa como feita
-            
+// Variáveis e Funções
+const node2array = nodeList => Array.prototype.slice.call(nodeList)
+const selectItem = (query, parent=document) => parent.querySelector(query) === null ? null : document.querySelector(query)
+const selectAll = query => node2array(document.querySelectorAll(query)) === null ? null : Array.prototype.slice.call(document.querySelectorAll(query))
+const insideElements = (parent, children) => node2array(selectItem(parent).querySelectorAll(children))
+// Retorna um componente HTML
+const component = (tag, singleTag=false, type='') => (text='', clasz='', id='') => {
+    return singleTag == true ? `<${tag} class="${clasz}" id="${id}" type="${type}">${text}` : `<${tag} class="${clasz}" id="${id}">${text}</${tag}>`
+}
+// Composições para a função component
+  const checkbox = component('input', true, 'checkbox')
+  const label = component('label')
+  const li = component('li')
+// Renderiza uma string na lista da HTML
+const render = string => string === undefined ? ul.innerHTML = '' : ul.innerHTML += string
+// Elementos DOM
+const ul = selectItem('ul')
+const taskRegister = selectItem('.input')
+const doneTasks = selectAll('.done')
+const add = selectItem('.add')
+const deleter = selectItem('.delete')
+let checkboxs = []
+// Eventos
+// Adiciona Item a lista (Caso não haja mais espaço é recomendado que se exclua uma tarefa)
+    add.addEventListener('click', () => {
+      if (checkboxs.length < 7) {
+        render(li(checkbox(label(taskRegister.value), 'task'), 'check'))
+        checkboxs = insideElements('ul', '.check') === null ? [] : insideElements('ul', '.check')
+        taskRegister.value = ''
+        taskRegister.focus()
+      } else {alert('Limite de Tarefas alcançado!')}
+    })
+// Deleta tarefas já feitas
+    deleter.addEventListener('click', () => {
+      checkboxs = checkboxs.filter(check => !check.querySelector('input').checked)
+      render()
+      checkboxs.forEach(check => ul.appendChild(check))
+    })
   </script>
 </html>
